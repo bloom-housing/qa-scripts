@@ -91,7 +91,7 @@ filtered_df = listings_df.loc[
     (listings_df['Community Types'].str.contains('Families')) 
 ]
 
-printResults(filtered_df, 'Seniors Families')
+printResults(filtered_df, 'Families')
 
 filtered_df = listings_df.loc[
     (listings_df['Listing Status'] == 'Public') &
