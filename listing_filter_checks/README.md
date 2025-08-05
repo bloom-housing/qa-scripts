@@ -49,9 +49,14 @@ csv header = 'Unit Types'
 
 ## Group 5 - Rent
 
+Current filter behavior for rent range:
+
+- % of income, it will always return regardless of what rent range is being filtered on
+- if rent is not set (n/a) is will never return regardless of what rent range is being filtered on
+
 **csv header 1 = 'Monthly Rent'**
 
-**Rent Range filter is currently broken. See https://app.zenhub.com/workspaces/bloom-5dc32d7144bd400001315dac/issues/gh/bloom-housing/bloom/4863"**
+**Rent Range filter currently has a bug. See https://app.zenhub.com/workspaces/bloom-5dc32d7144bd400001315dac/issues/gh/bloom-housing/bloom/5204**
 
 ### Filter options:
 
