@@ -1,8 +1,14 @@
 import pandas as pd
 import re
+import argparse
 
-listings_df = pd.read_csv('listings.csv')
-unit_groups_df = pd.read_csv('unitGroups.csv')
+parser = argparse.ArgumentParser()
+parser.add_argument("listings_csv_path", help="file path of the listings csv export")
+parser.add_argument("units_csv_path", help="file path of the units csv export")
+args = parser.parse_args()
+
+listings_df = pd.read_csv(args.listings_csv_path)
+unit_groups_df = pd.read_csv(args.units_csv_path)
 
 active_listings_df = listings_df.loc[
     (listings_df['Listing Status'] == 'Public') 
@@ -117,3 +123,4 @@ filtered_df = listings_df.loc[
 ]
 
 printResults(filtered_df, 'Section 8')
+
