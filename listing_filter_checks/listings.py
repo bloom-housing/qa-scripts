@@ -14,7 +14,7 @@ def printResults(df, msg=''):
     print(df['Listing Name'].unique())
 
 # TODO - research if pandas has a built in way to extract rent ranges from column
-def rentFilter(df, min_rent, max_rent):
+def rentFilter(df, min_rent=None, max_rent=None):
     listings = []
 
     for i, row in rent_df.iterrows():
@@ -24,100 +24,77 @@ def rentFilter(df, min_rent, max_rent):
             else:
                 rent_string = row['Monthly Rent']
                 numbers_as_strings = re.findall(r'\d+', rent_string)
+                min_r_check = False
+                max_r_check = False
                 for n in numbers_as_strings:
-                    if min_rent >= int(n) and max_rent <= int(n):
+                    if min_rent >= int(n):
+                        min_r_check = True
+                    if max_rent <= int(n):
+                        max_r_check = True
+                    if min_r_check and max_r_check:
                         listings.append(row['Listing Name'])
                         break
 
     print(len(listings))
     print(listings)
 
+def unit_filter(unit_type):
+    df = unit_groups_df.loc[
+        (unit_groups_df['Listing Id'].isin(active_listing_ids)) &
+        (unit_groups_df['Unit Types'].str.contains(unit_type)) 
+    ]
+    return df
+
+def community_filter(com_type):
+    df = listings_df.loc[
+        (listings_df['Listing Status'] == 'Public') &
+        (listings_df['Community Types'].str.contains(com_type)) 
+    ]
+    return df
+
 # Filter by bedroom size
 print('BEDROOM SIZE')
 
 active_listing_ids = active_listings_df['Listing Id'].tolist()
 
-sro_filter = unit_groups_df.loc[
-    (unit_groups_df['Listing Id'].isin(active_listing_ids)) &
-    (unit_groups_df['Unit Types'].str.contains('Studio')) 
-]
-
+# Studio
+sro_filter = unit_filter('Studio')
 printResults(sro_filter, 'SRO')
 
 # 1 bedroom
-one_bd_filter = unit_groups_df.loc[
-    (unit_groups_df['Listing Id'].isin(active_listing_ids)) &
-    (unit_groups_df['Unit Types'].str.contains('One Bedroom')) 
-]
-
+one_bd_filter = unit_filter('One Bedroom')
 printResults(one_bd_filter,'1 BD')
 
 # 2 bedroom
-two_bd_filter = unit_groups_df.loc[
-    (unit_groups_df['Listing Id'].isin(active_listing_ids)) &
-    (unit_groups_df['Unit Types'].str.contains('Two Bedroom')) 
-]
-
+two_bd_filter = unit_filter('Two Bedroom')
 printResults(two_bd_filter,'2 BD')
 
 # 3 bedroom
-three_bd_filter = unit_groups_df.loc[
-    (unit_groups_df['Listing Id'].isin(active_listing_ids)) &
-    (unit_groups_df['Unit Types'].str.contains('Three Bedroom')) 
-]
-
+three_bd_filter = unit_filter('Three Bedroom')
 printResults(three_bd_filter,'3 BD')
 
 # 4+ bedroom
-four_bd_filter = unit_groups_df.loc[
-    (unit_groups_df['Listing Id'].isin(active_listing_ids)) &
-    (unit_groups_df['Unit Types'].str.contains('Four')) # filter seems to have trouble with the + sign
-]
-
+four_bd_filter = unit_filter('Four') # filter seems to have trouble with the + sign
 printResults(four_bd_filter,'4+ BD')
 
 # Filter by community type
 print('COMMUNITY TYPE')
-filtered_df = listings_df.loc[
-    (listings_df['Listing Status'] == 'Public') &
-    (listings_df['Community Types'].str.contains('Residents with Disabilities')) 
-]
-
+filtered_df = community_filter('Residents with Disabilities')
 printResults(filtered_df, 'Disabilities')
 
-filtered_df = listings_df.loc[
-    (listings_df['Listing Status'] == 'Public') &
-    (listings_df['Community Types'].str.contains('Veterans')) 
-]
-
+filtered_df = community_filter('Veterans')
 printResults(filtered_df, 'Veterans')
 
-filtered_df = listings_df.loc[
-    (listings_df['Listing Status'] == 'Public') &
-    (listings_df['Community Types'].str.contains('Seniors 62+')) 
-]
-
+filtered_df = community_filter('Seniors 62+')
 printResults(filtered_df, 'Seniors 62+')
 
-filtered_df = listings_df.loc[
-    (listings_df['Listing Status'] == 'Public') &
-    (listings_df['Community Types'].str.contains('Supportive Housing for the Homeless')) 
-]
-
+filtered_df = community_filter('Supportive Housing for the Homeless')
 printResults(filtered_df, 'Homeless')
 
-filtered_df = listings_df.loc[
-    (listings_df['Listing Status'] == 'Public') &
-    (listings_df['Community Types'].str.contains('Families')) 
-]
-
+filtered_df = community_filter('Families')
 printResults(filtered_df, 'Families')
 
-filtered_df = listings_df.loc[
-    (listings_df['Listing Status'] == 'Public') &
-    (listings_df['Community Types'].str.contains('Seniors 55+')) 
-]
-
+filtered_df = community_filter('Seniors 55+')
 printResults(filtered_df, 'Seniors 55+')
 
 # Filter by rent range
