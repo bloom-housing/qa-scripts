@@ -58,69 +58,64 @@ def community_filter(com_type):
     ]
     return df
 
-# Filter by bedroom size
-print('BEDROOM SIZE')
+community_type_map = {
+    '1': 'Residents with Disabilities',
+    '2': 'Veterans',
+    '3': 'Seniors 62+',
+    '4': 'Supportive Housing for the Homeless',
+    '5': 'Families',
+    '6': 'Seniors 55+'
+}
 
+bed_size_map = {
+    '0': 'Studio',
+    '1': 'One Bedroom',
+    '2': 'Two Bedroom',
+    '3': 'Three Bedroom',
+    '4': 'Four'
+}
 active_listing_ids = active_listings_df['Listing Id'].tolist()
 
-# Studio
-sro_filter = unit_filter('Studio')
-printResults(sro_filter, 'SRO')
+filter_group = input("Enter group to filter by:\nc = community type\nu = unit type\ns = section 8\nr = rent range\n")
 
-# 1 bedroom
-one_bd_filter = unit_filter('One Bedroom')
-printResults(one_bd_filter,'1 BD')
+if filter_group == 'u':
+    # Filter by bedroom size
+    bed_size_select = input("Enter bedroom size:\n0 = studio\n1 = 1 bedroom\n2 = 2 bedroom\n3 = 3 bedroom\n4 = 4+ bedroom\nq = quit\n")
+    print('BEDROOM SIZE')
+    bed_size = bed_size_map[bed_size_select]
+    # TODO - handle invalid bed size
+    bed_size_filter = unit_filter(bed_size)
+    printResults(bed_size_filter, bed_size)
+elif filter_group == 'c':
+    # Filter by community type
+    com_select = input("Enter a community type:\n1 = disabilities\n2 = veterans\n3 = seniors 62+\n4 = homeless\n5 = families\n6 = seniors 55+\nq = quit\n")
+    print('COMMUNITY TYPE')
+    com_type = community_type_map[com_select]
+    # TODO handle invalid input
+    filtered_df = community_filter(com_type)
+    printResults(filtered_df, com_type)
+elif filter_group == 's':
+    # Filter by section 8
+    filtered_df = listings_df.loc[
+        (listings_df['Listing Status'] == 'Public') &
+        (listings_df['Accept Section 8'] == 'Yes') 
+    ]
 
-# 2 bedroom
-two_bd_filter = unit_filter('Two Bedroom')
-printResults(two_bd_filter,'2 BD')
+    printResults(filtered_df, 'Section 8')
+elif filter_group == 'r':
+    rr_min = input("Enter min rent: ")
+    rr_max = input("Enter max rent: ")
+    # TODO - handle invalid input
+    min_rent = int(rr_min)
+    max_rent = int(rr_max)
 
-# 3 bedroom
-three_bd_filter = unit_filter('Three Bedroom')
-printResults(three_bd_filter,'3 BD')
+    print('RENT RANGE')
+    rent_df = unit_groups_df.loc[
+        (unit_groups_df['Listing Id'].isin(active_listing_ids))
+    ]
 
-# 4+ bedroom
-four_bd_filter = unit_filter('Four') # filter seems to have trouble with the + sign
-printResults(four_bd_filter,'4+ BD')
-
-# Filter by community type
-print('COMMUNITY TYPE')
-filtered_df = community_filter('Residents with Disabilities')
-printResults(filtered_df, 'Disabilities')
-
-filtered_df = community_filter('Veterans')
-printResults(filtered_df, 'Veterans')
-
-filtered_df = community_filter('Seniors 62+')
-printResults(filtered_df, 'Seniors 62+')
-
-filtered_df = community_filter('Supportive Housing for the Homeless')
-printResults(filtered_df, 'Homeless')
-
-filtered_df = community_filter('Families')
-printResults(filtered_df, 'Families')
-
-filtered_df = community_filter('Seniors 55+')
-printResults(filtered_df, 'Seniors 55+')
-
-# Filter by rent range
-print('RENT RANGE')
-rent_df = unit_groups_df.loc[
-    (unit_groups_df['Listing Id'].isin(active_listing_ids))
-]
-
-# ignore null fields
-rent_df = rent_df.dropna(subset=['Monthly Rent'])
-
-min_rent = 0
-max_rent = 0
-rentFilter(rent_df, min_rent, max_rent)
-
-# Filter by section 8
-filtered_df = listings_df.loc[
-    (listings_df['Listing Status'] == 'Public') &
-    (listings_df['Accept Section 8'] == 'Yes') 
-]
-
-printResults(filtered_df, 'Section 8')
-
+    # ignore null fields
+    rent_df = rent_df.dropna(subset=['Monthly Rent'])
+    rentFilter(rent_df, min_rent, max_rent)
+else:
+    print("invalid filter group selected")
