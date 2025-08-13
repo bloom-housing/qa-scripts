@@ -18,8 +18,7 @@ csv header = combination of 'Marketing Status' and 'Waitlist Status' (calculated
 - 'Waitlist Status' = 'Yes' -> Open Waitlist
 - 'Waitlist Status' = 'No' -> Closed Waitlist
 - 'Marketing Status' = 'Under Construction' -> Coming soon.
-
-**Note -> The "Units Available" filter option does not work see https://app.zenhub.com/workspaces/bloom-5dc32d7144bd400001315dac/issues/gh/bloom-housing/bloom/4919**
+- 'Unit Group Vacancies' > 0 -> Available Units
 
 **Note!**
 In UI filter "Under Construction" will take priority. So if a unit has a closed waitlist and it is under construction it will not return on a closed waitlist filter. For script results to match UI filter results when searching for a waitlist you must explicitly include `df['Marketing Status'] != 'Under Construction'` in the search.
