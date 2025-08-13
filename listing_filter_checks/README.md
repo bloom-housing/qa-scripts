@@ -1,131 +1,36 @@
-# UI filter to csv mapping
+# Listings Filter Check
 
-## Group 1 - Confirmed listings
+## Summary
 
-csv header = 'Is Listing Verified'
+A script to facilitate manually verifying the rental finder and listings filter work as expected. This script was created with the Detroit replatform effort in mind but may be useful for any jurisdiction with the feature flag enabled.
 
-### Filter options:
+## Scope
 
-- 'Yes'
-- 'No'
+This script will match several predefined filters based on the listings csv export found in the partner portal. It is intended to make UI testing against existing data easier by removing the necessity to manually parse through the 2 csv files.
 
-## Group 2 - Availability
+### Out of Scope
 
-csv header = combination of 'Marketing Status' and 'Waitlist Status' (calculated per unit group).
+Please note the following is out of scope
 
-### Filter options:
+- Automated comparison between csv files and UI filter
+- Verification that csv data is correct
+- Automatic downloading the most up to date csv file
 
-- 'Waitlist Status' = 'Yes' -> Open Waitlist
-- 'Waitlist Status' = 'No' -> Closed Waitlist
-- 'Marketing Status' = 'Under Construction' -> Coming soon.
-- 'Unit Group Vacancies' > 0 -> Available Units
+## Setup
 
-**Note!**
-In UI filter "Under Construction" will take priority. So if a unit has a closed waitlist and it is under construction it will not return on a closed waitlist filter. For script results to match UI filter results when searching for a waitlist you must explicitly include `df['Marketing Status'] != 'Under Construction'` in the search.
+This script is only guaranteed to work as expected with python 3.13.X.
 
-## Group 3 - Home type
+In you terminal install the dependencies with `pip install -r requirements.txt`
 
-csv header = 'Home Type'
+You will need a partner portal admin user to download the csv files
 
-### Filter options:
+## How to Run
 
-- 'apartment'
-- 'duplex'
-- 'house'
-- 'townhome'
+1. From the partner portal export the most recent listings csv. This will download 2 csv files, one for listings and one for unitGroups.
+2. In terminal enter `python listings.py <PATH_TO_LISTINGS.CSV> <PATH_TO_UNITGROUPS.CSV>
+3. You will be given the option to choose a preset filter or an interactive single filter option. Choose which is applicable to your use case and set the corresponding filter from either the rental finder or listings filter on the public site.
+4. Verify the listing totals and the listing names match your terminal output and the public site UI.
 
-## Group 4 - Bedroom size
+## Adding More Filters
 
-csv header = 'Unit Types'
-
-### Filter options:
-
-- 'Studio' -> Studio will work for either Studio or SRO checkbox
-- 'One Bedroom'
-- 'Two Bedroom'
-- 'Three Bedroom'
-- 'Four+ Bedroom'
-
-## Group 5 - Rent
-
-Current filter behavior for rent range:
-
-- % of income, it will always return regardless of what rent range is being filtered on
-- if rent is not set (n/a) is will never return regardless of what rent range is being filtered on
-
-**csv header 1 = 'Monthly Rent'**
-
-**Rent Range filter currently has a bug. See https://app.zenhub.com/workspaces/bloom-5dc32d7144bd400001315dac/issues/gh/bloom-housing/bloom/5204**
-
-### Filter options:
-
-rent range - tbd how to filter this - possible column = 'Monthly Rent'
-
-**csv header 2 = 'Accept Section 8'**
-
-### Filter options:
-
-- 'Yes'
-
-## Group 6 - Region
-
-csv header = 'Building Region'
-
-### Filter options:
-
-- 'Eastside'
-- 'Greater_Downtown'
-- 'Westside'
-- 'Southwest'
-
-## Group 7 - Accessibility Features
-
-csv header = 'Property Amenities'
-
-### Filter options:
-
-- 'elevator'
-- 'wheelchairRamp'
-- 'serviceAnimalsAllowed'
-- 'accessibleParking'
-- 'parkingOnSite'
-- 'inUnitWasherDryer'
-- 'laundryInBuilding'
-- 'barrierFreeEntrance' -> "Barrier-free (no-step) property entrance"
-- 'rollInShower'
-- 'grabBars'
-- 'heatingInUnit'
-- 'acInUnit'
-- 'hearing'
-- 'visual' -> "units for those with visual disability"
-- 'mobility' -> "units for those with mobility disabilities"
-- 'barrierFreeUnitEntrance'
-- 'loweredLightSwitch'
-- 'barrierFreeBathroom'
-- 'wideDoorways'
-- 'loweredCabinets'
-
-## Group 8 - Listing name
-
-csv header = 'Listing Name'
-
-- will do partial match against all listing names
-
-## Group 9 - Community
-
-csv header = 'Community Types'
-
-### Filter options:
-
-- 'Residents with Disabilities'
-- 'Families'
-- 'Supportive Housing for the Homeless'
-- 'Seniors 55+'
-- 'Seniors 62+'
-- 'Veterans'
-
-## Combining Filter Groups
-
-There are some filters in the UI that don't return the exact search.
-
-For example: selecting the studio checkbox for Group 4 - Bedroom size and "Closed waitlist" for Group 2 - Availability can return results where the listing has a studio apartment with an open waitlist and a 1 bedroom with a closed waitlist. This listing technically has a studio apartment **and** a closed waitlist but it does not have a studio apartment **with** a closed waitlist. To mimic this behavior in this script it can be performed as 2 separate queries. The first finding "studio" and the second looking for "closed waitlist" where the listing name matches the results returned from the first query.
+Predefined filters are set in the `preset_filters.py` file. If you wish to define more preset filters please check the [filter_to_csv_map](filter_to_csv_map.md) documentation to see which csv headings match up to which UI filters.
