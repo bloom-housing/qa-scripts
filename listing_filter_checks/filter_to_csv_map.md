@@ -36,6 +36,8 @@ csv file: unitGroups
 **Note!**
 In UI filter "Under Construction" will take priority. So if a unit has a closed waitlist and it is under construction it will not return on a closed waitlist filter. For script results to match UI filter results when searching for a waitlist you must explicitly include `df['Marketing Status'] != 'Under Construction'` in the search.
 
+Unlike the behavior mentions above for waitlist, vacant units that are under construction will return with the vacant unit filter.
+
 ## Group 3 - Home type
 
 csv header: 'Home Type'  
@@ -70,7 +72,7 @@ Current filter behavior for rent range:
 
 **csv header 1 = 'Monthly Rent'**
 
-**Rent Range filter currently has a bug. See https://app.zenhub.com/workspaces/bloom-5dc32d7144bd400001315dac/issues/gh/bloom-housing/bloom/5204**
+**NOTE -** A [preexisting bug](https://app.zenhub.com/workspaces/bloom-5dc32d7144bd400001315dac/issues/gh/bloom-housing/bloom/5204) resulted in some listings being saved incorrectly so that they return outside of the expected rent range. This issue is now fixed but the rent range search may be off by up to 5 listings.
 
 ### Filter options:
 
