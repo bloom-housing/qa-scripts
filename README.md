@@ -26,6 +26,6 @@ Anyone who has a tool or script they created and thinks others can benefit from.
 
 ## Existing Scripts
 
-| Name                       | Description                                                                                                  |
-| -------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| [listing_filter_checks](#) | Parses listings and unitGroups csv files to help with manually testing the listings filter and rental finder |
+| Name                                              | Description                                                                                                  |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [listing_filter_checks](./listing_filter_checks/) | Parses listings and unitGroups csv files to help with manually testing the listings filter and rental finder |
