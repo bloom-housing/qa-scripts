@@ -36,7 +36,7 @@ csv file: unitGroups
 **Note!**
 In UI filter "Under Construction" will take priority. So if a unit has a closed waitlist and it is under construction it will not return on a closed waitlist filter. For script results to match UI filter results when searching for a waitlist you must explicitly include `df['Marketing Status'] != 'Under Construction'` in the search.
 
-Unlike the behavior mentions above for waitlist, vacant units that are under construction will return with the vacant unit filter.
+Unlike the behavior mentioned above for waitlist, vacant units that are under construction will return with the vacant unit filter.
 
 ## Group 3 - Home type
 
