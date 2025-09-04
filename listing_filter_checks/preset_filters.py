@@ -18,10 +18,9 @@ def vacant_disabilities(l_df, u_df):
     l_df = l_df.loc[
         (l_df['Listing Status'] == 'Public') &
         (l_df['Is Listing Verified'] == 'Yes') &
-        (l_df['Community Types'].str.contains('Residents with Disabilities')) &
-        ((l_df['Property Amenities'].str.contains('wheelchairRamp')) |
-        (l_df['Property Amenities'].str.contains('rollInShower')) |
-        (l_df['Property Amenities'].str.contains('wideDoorways')))
+        (l_df['Property Amenities'].str.contains('wheelchairRamp')) &
+        (l_df['Property Amenities'].str.contains('rollInShower')) &
+        (l_df['Property Amenities'].str.contains('wideDoorways')) 
     ]
 
     return u_df.loc[
@@ -63,6 +62,29 @@ def confirmed_sec8_sen62(l_df):
         (l_df['Listing Status'] == 'Public') &
         (l_df['Accept Section 8'] == 'Yes') &
         l_df['Community Types'].str.contains('Seniors 62+')
+    ]
+
+def accessibility(l_df):
+    return l_df.loc[
+        (l_df['Listing Status'] == 'Public') &
+        (l_df['Property Amenities'].str.contains('wheelchairRamp')) &
+        (l_df['Property Amenities'].str.contains('rollInShower')) &
+        (l_df['Property Amenities'].str.contains('wideDoorways')) &
+        (l_df['Property Amenities'].str.contains('elevator')) &
+        (l_df['Property Amenities'].str.contains('serviceAnimalsAllowed')) &
+        (l_df['Property Amenities'].str.contains('accessibleParking')) &
+        (l_df['Property Amenities'].str.contains('parkingOnSite')) &
+        (l_df['Property Amenities'].str.contains('laundryInBuilding')) &
+        (l_df['Property Amenities'].str.contains('barrierFreeEntrance')) &
+        (l_df['Property Amenities'].str.contains('grabBars')) &
+        (l_df['Property Amenities'].str.contains('heatingInUnit')) &
+        (l_df['Property Amenities'].str.contains('acInUnit')) &
+        (l_df['Property Amenities'].str.contains('hearing')) &
+        (l_df['Property Amenities'].str.contains('visual')) &
+        (l_df['Property Amenities'].str.contains('mobility')) &
+        (l_df['Property Amenities'].str.contains('loweredLightSwitch')) &
+        (l_df['Property Amenities'].str.contains('barrierFreeBathroom')) &
+        (l_df['Property Amenities'].str.contains('loweredCabinets')) 
     ]
 
 def combo_select(l_df, u_df):

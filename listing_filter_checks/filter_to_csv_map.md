@@ -99,6 +99,8 @@ csv file: listing
 
 ## Group 7 - Accessibility Features
 
+Within group filtering for Accessibility Features acts with AND logic. See [ticket](https://github.com/bloom-housing/bloom/issues/4885)
+
 csv header: 'Property Amenities'  
 csv file: listing
 
@@ -119,7 +121,6 @@ csv file: listing
 - 'hearing'
 - 'visual' -> "units for those with visual disability"
 - 'mobility' -> "units for those with mobility disabilities"
-- 'barrierFreeUnitEntrance'
 - 'loweredLightSwitch'
 - 'barrierFreeBathroom'
 - 'wideDoorways'
