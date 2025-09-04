@@ -18,6 +18,7 @@ def vacant_disabilities(l_df, u_df):
     l_df = l_df.loc[
         (l_df['Listing Status'] == 'Public') &
         (l_df['Is Listing Verified'] == 'Yes') &
+        (l_df['Community Types'].str.contains('Residents with Disabilities')) &
         (l_df['Property Amenities'].str.contains('wheelchairRamp')) &
         (l_df['Property Amenities'].str.contains('rollInShower')) &
         (l_df['Property Amenities'].str.contains('wideDoorways')) 
