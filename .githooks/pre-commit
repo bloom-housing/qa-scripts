@@ -1,4 +1,3 @@
 #!/bin/sh
 
-# trufflehog git file://. --since-commit HEAD --results=verified,unknown --fail
 gitleaks -v git --pre-commit --staged
