@@ -148,6 +148,7 @@ if filter_mode == '0':
     3: Single family home or townhouse with open waitlist or vacancies for families
     4: Listings that accept section 8 for seniors 62+
     5: Verified studio apartment listings in greater downtown with ac in unit for seniors 55+
+    6: All accessibility features except for in unit washer dryer
     
     Enter: ''')
 
@@ -163,6 +164,8 @@ if filter_mode == '0':
         printResults(presets.confirmed_sec8_sen62(listings_df))
     elif preset_select == '5':
         printResults(presets.combo_select(listings_df, unit_groups_df))
+    elif preset_select == '6':
+        printResults(presets.accessibility(listings_df))
     else:
         print("Invalid selection")
 else:
