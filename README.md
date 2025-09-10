@@ -7,6 +7,13 @@ A place for adhoc scripts and tools that can help support quality efforts. Examp
 - proof of concepts's to try out automation ideas before incorporating them into existing pipelines
 -
 
+## Setup
+
+The `.githooks` directory contains a pre-commit script to check for secrets before allowing a `git commit`. To enable this for your local clone please perform the following steps:
+
+1. Install gitleaks. On mac you can run `brew install gitleaks`. For other install options see the [gitleaks docs](https://github.com/gitleaks/gitleaks?tab=readme-ov-file#installing)
+2. `cd` into your local clone of the qa-scripts repo and run `git config core.hooksPath .githooks/`
+
 ## Who can Contribute
 
 Anyone who has a tool or script they created and thinks others can benefit from. Scripts do not have to be specifically Bloom related but should somehow assist in the development or testing of Bloom related things.
